@@ -20,7 +20,11 @@ client.on('ready', () => {
 });
 
 
+
 ///Creating classes for activities
+
+
+
 class Raid{
   constructor(leader, raid){
     this.Guardians[0] = leader
@@ -66,6 +70,9 @@ client.on("messageCreate", message => {
 
 
 //Creating the main menu
+
+
+  
   if(message.content === "!lfg") {
     let embed = new Discord.MessageEmbed()
     .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
@@ -105,7 +112,10 @@ client.on("interactionCreate", interaction => {
 
 
   
-  //When someone clicks the Create LFG button
+//Create LFG Post Button
+
+
+  
   if (interaction.customId === 'newPostMenu'){
     interaction.reply
       ({components : [{type: 1, components : [
@@ -141,10 +151,10 @@ client.on("interactionCreate", interaction => {
 
 
 
+//View LFG Posts Button
 
 
   
-  //When someone clicks the View Listings button
   if (interaction.customId === 'viewPostMenu'){
     if(posts.length == 0){
       interaction.reply("No posts exist")
@@ -205,15 +215,17 @@ client.on("interactionCreate", interaction => {
 
 
 
-
+  
+//Delete LFG Post Buttons
 
 
   
-  //When someone clicks the Delete Listings button
   if (interaction.customId === 'removePostMenu'){
     interaction.reply("Delete LFG menu coming soon!")
   }
 
+//New Posts Menu Interactions
+  
   if (interaction.customId === 'Raid'){
     interaction.reply({components: [
       {
@@ -252,10 +264,16 @@ client.on("interactionCreate", interaction => {
         ]
       }
     ]})
-    //posts.push(new Raid(interaction.member.user.username))
-    //interaction.reply("@" + interaction.member.user.username + " created a new listing")
   }
 
+
+
+  
+//Join Group Command Handlers
+
+
+  
+  
   if (interaction.customId === 'joinGroup1') {
     if (posts[0] != null){
       let inGroup = false;
@@ -376,8 +394,15 @@ client.on("interactionCreate", interaction => {
     }
   }
 
+
+
   
-  //Create 4 more joinGroup interactions
+  
+//Raid Creation Command Handlers
+
+
+
+  
   
   if (interaction.customId === 'LW'){
     console.log("Interaction went through")
@@ -433,8 +458,6 @@ client.on("interactionCreate", interaction => {
     }
   }
   
-
-  //Create an interaction for every raid
   
 });
 
