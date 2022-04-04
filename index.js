@@ -4,8 +4,9 @@ const Discord = require("discord.js")
 const client = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES"]
 });
-const target = '819038684618686495'
-const word = 'Orbit LFG'
+const menu = require("./src/menuControl/menus.js")
+const group = require("./src/postControl/groupClasses.js")
+
 
 var posts = [];
 
@@ -29,91 +30,8 @@ client.on('ready', () => {
 
 
 
-class Raid {
-    constructor(leader, raid) {
-        this.Guardians[0] = leader
-        this.Name = raid
-    }
-    Guardians = ["OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN"];
-    Type = "Raid"
-}
-
-class Strike {
-    constructor(leader) {
-        this.G1 = leader
-    }
-    G2 = "";
-    G3 = "";
-}
-
-class PVP6 {
-    constructor(leader) {
-        this.G1 = leader
-    }
-    G2 = "";
-    G3 = "";
-    G4 = "";
-    G5 = "";
-    G6 = "";
-}
-
-class PVP3 {
-    constructor(leader) {
-        this.G1 = leader
-    }
-    G2 = "";
-    G3 = "";
-}
 
 
-//Creating the main menu
-var mainMenu1 = [{
-    type: 1,
-    components: [{
-            type: 2,
-            label: 'Create LFG Post',
-            style: 1,
-            custom_id: 'newPostMenu'
-        },
-        {
-            type: 2,
-            label: 'View Current LFG Posts',
-            style: 2,
-            custom_id: 'viewPostMenu',
-            disabled: true
-        },
-        {
-            type: 2,
-            label: 'Delete LFG Post',
-            style: 4,
-            custom_id: 'removePostMenu',
-            disabled: true
-        }
-    ]
-}]
-
-var mainMenu2 = [{
-    type: 1,
-    components: [{
-            type: 2,
-            label: 'Create LFG Post',
-            style: 1,
-            custom_id: 'newPostMenu'
-        },
-        {
-            type: 2,
-            label: 'View Current LFG Posts',
-            style: 2,
-            custom_id: 'viewPostMenu',
-        },
-        {
-            type: 2,
-            label: 'Delete LFG Post',
-            style: 4,
-            custom_id: 'removePostMenu',
-        }
-    ]
-}]
 
 
 
@@ -131,7 +49,7 @@ client.on("messageCreate", message => {
 
 
     if (message.content === "!lfg") {
-        let embed = new Discord.MessageEmbed()
+      let mainEmbed = new Discord.MessageEmbed()
             .setAuthor({
                 name: message.author.username,
                 iconURL: message.author.displayAvatarURL()
@@ -140,14 +58,15 @@ client.on("messageCreate", message => {
             .setDescription("Please select an option")
             .setColor("#ffa500")
         if (posts.length > 0) {
+
             message.channel.send({
-                embeds: [embed],
-                components: mainMenu2
+                embeds: [mainEmbed],
+                components: menu.mainMenuActive
             })
         } else {
             message.channel.send({
-                embeds: [embed],
-                components: mainMenu1
+                embeds: [mainEmbed],
+                components: menu.mainMenuDisabled
             })
         }
     }
@@ -173,31 +92,7 @@ client.on("interactionCreate", interaction => {
         interaction.update({
             components: [{
                 type: 1,
-                components: [{
-                        type: 2,
-                        label: 'Raid',
-                        style: 3,
-                        custom_id: 'Raid'
-                    },
-                    {
-                        type: 2,
-                        label: 'Strikes/Nighfalls',
-                        style: 3,
-                        custom_id: 'Strike'
-                    },
-                    {
-                        type: 2,
-                        label: 'Casual PVP',
-                        style: 3,
-                        custom_id: 'PVP'
-                    },
-                    {
-                        type: 2,
-                        label: 'Trials',
-                        style: 3,
-                        custom_id: 'Trials'
-                    }
-                ]
+                components: menu.newPostMenu
             }]
         })
     }
@@ -278,7 +173,7 @@ client.on("interactionCreate", interaction => {
     if (interaction.customId === 'removePostMenu') {
         interaction.update({
             content: "Delete LFG menu coming soon!",
-            components: mainMenu2
+            components: menu.mainMenuActive
         })
     }
 
@@ -339,7 +234,7 @@ client.on("interactionCreate", interaction => {
                 if (posts[0].Guardians[index] === interaction.member.user.username) {
                     interaction.update({
                         content: "Hey! You're already in this group",
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                     inGroup === true
                 } else if (posts[0].Guardians[index] === "OPEN") {
@@ -347,7 +242,7 @@ client.on("interactionCreate", interaction => {
                     inGroup = true
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[0].Name),
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                 }
                 if (inGroup === true) {
@@ -356,7 +251,7 @@ client.on("interactionCreate", interaction => {
                 if (index === 5) {
                     interaction.update({
                         content: "Group is full",
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                 }
             }
@@ -377,7 +272,7 @@ client.on("interactionCreate", interaction => {
                     inGroup = true
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[1].Name),
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                 }
                 if (inGroup === true) {
@@ -401,7 +296,7 @@ client.on("interactionCreate", interaction => {
                     inGroup = true
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[2].Name),
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                 }
                 if (inGroup === true) {
@@ -425,7 +320,7 @@ client.on("interactionCreate", interaction => {
                     inGroup = true
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[3].Name),
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                 }
                 if (inGroup === true) {
@@ -449,7 +344,7 @@ client.on("interactionCreate", interaction => {
                     inGroup = true
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[4].Name),
-                        components: mainMenu2
+                        components: menu.mainMenuActive
                     })
                 }
                 if (inGroup === true) {
@@ -471,75 +366,75 @@ client.on("interactionCreate", interaction => {
 
     if (interaction.customId === 'LW') {
         if (posts.length < 5) {
-            posts.push(new Raid(interaction.member.user.username, 'Last Wish'))
+            posts.push(new group.Raid(interaction.member.user.username, 'Last Wish'))
             interaction.update({
                 content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Last Wish group'),
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         } else {
             interaction.update({
                 content: 'Sorry! LFG post list is already full',
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         }
     }
 
     if (interaction.customId === 'GOS') {
         if (posts.length < 5) {
-            posts.push(new Raid(interaction.member.user.username, 'Garden of Salvation'))
+            posts.push(new group.Raid(interaction.member.user.username, 'Garden of Salvation'))
             interaction.update({
                 content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Garden of Salvation group'),
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         } else {
             interaction.update({
                 content: 'Sorry! LFG post list is already full',
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         }
     }
 
     if (interaction.customId === 'DSC') {
         if (posts.length < 5) {
-            posts.push(new Raid(interaction.member.user.username, 'Deep Stone Crypt'))
+            posts.push(new group.Raid(interaction.member.user.username, 'Deep Stone Crypt'))
             interaction.update({
                 content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Deep Stone Crypt group'),
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         } else {
             interaction.update({
                 content: 'Sorry! LFG post list is already full',
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         }
     }
 
     if (interaction.customId === 'VOG') {
         if (posts.length < 5) {
-            posts.push(new Raid(interaction.member.user.username, 'Vault of Glass'))
+            posts.push(new group.Raid(interaction.member.user.username, 'Vault of Glass'))
             interaction.update({
                 content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Vault of Glass group'),
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         } else {
             interaction.update({
                 content: 'Sorry! LFG post list is already full',
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         }
     }
 
     if (interaction.customId === 'VOTD') {
         if (posts.length < 5) {
-            posts.push(new Raid(interaction.member.user.username, 'Vow of the Disciple'))
+            posts.push(new group.Raid(interaction.member.user.username, 'Vow of the Disciple'))
             interaction.update({
                 content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Vow of the Disciple group'),
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         } else {
             interaction.update({
                 content: 'Sorry! LFG post list is already full',
-                components: mainMenu2
+                components: menu.mainMenuActive
             })
         }
     }
