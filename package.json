@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "discord-buttons": "^4.0.0-deprecated",
     "discord-buttons-v13": "^4.0.2",
     "discord.js": "^13.6.0",
     "express": "^4.17.3"
