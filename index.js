@@ -6,9 +6,14 @@ const client = new Discord.Client({
 });
 const menu = require("./src/menuControl/menus.js")
 const group = require("./src/postControl/groupClasses.js")
+const embed = require("./src/menuControl/embeds.js")
+
+
+const errChannel = "961290142973321306"
 
 
 var posts = [];
+var strikeDifficulty = ""
 
 app.listen(3000, () => {
     console.log("App is running")
@@ -26,7 +31,70 @@ client.on('ready', () => {
 
 
 
-///Creating classes for activities
+//Error handling
+
+process.on('unhandledRejection', (reason, p) => {
+
+        console.log(" [Anti-crash] :: Unhandled Rejection/Catch")
+        console.log(reason, p)
+
+        const errEmbed = new Discord.MessageEmbed()
+            .setColor("RED")
+            .setTitle("⚠ New Error")
+            .setDescription("An error just occured in the bot console!**\n\nERROR:\n\n** ```" + reason + "\n\n" + p + "```")
+            .setTimestamp()
+            .setFooter("Anti-Crash System")
+
+        client.channels.cache.get(errChannel).send({ embeds: [errEmbed] })
+
+    })
+
+    process.on('uncaughtException', (err, origin) => {
+
+        console.log(" [Anti-crash] :: Uncaught Exception/Catch")
+        console.log(err, origin)
+
+        const errEmbed = new Discord.MessageEmbed()
+            .setColor("RED")
+            .setTitle("⚠ New Error")
+            .setDescription("An error just occured in the bot console!**\n\nERROR:\n\n** ```" + err + "\n\n" + origin + "```")
+            .setTimestamp()
+            .setFooter("Anti-Crash System")
+
+        client.channels.cache.get(errChannel).send({ embeds: [errEmbed] })
+
+    })
+
+    process.on('uncaughtExceptionMonitor', (err, origin) => {
+
+        console.log(" [Anti-crash] :: Uncaught Exception/Catch (MONITOR)")
+        console.log(err, origin)
+
+        const errEmbed = new Discord.MessageEmbed()
+            .setColor("RED")
+            .setTitle("⚠ New Error")
+            .setDescription("An error just occured in the bot console!**\n\nERROR:\n\n** ```" + err + "\n\n" + origin + "```")
+            .setTimestamp()
+            .setFooter("Anti-Crash System")
+
+        client.channels.cache.get(errChannel).send({ embeds: [errEmbed] })
+
+    })
+
+    process.on('multipleResolves', (type, promise, reason) => {
+
+        console.log(" [Anti-crash] :: Multiple Resolves")
+        console.log(type, promise, reason)
+
+        const errEmbed = new Discord.MessageEmbed()
+            .setColor("RED")
+            .setTitle("⚠ New Error")
+            .setDescription("An error just occured in the bot console!**\n\nERROR:\n\n** ```" + type + "\n\n" + promise + "\n\n" + reason + "```")
+            .setTimestamp()
+
+        client.channels.cache.get(errChannel).send({ embeds: [errEmbed] })
+
+    })
 
 
 
@@ -49,23 +117,20 @@ client.on("messageCreate", message => {
 
 
     if (message.content === "!lfg") {
-      let mainEmbed = new Discord.MessageEmbed()
-            .setAuthor({
+      embed.mainMenu[0].author = {
                 name: message.author.username,
                 iconURL: message.author.displayAvatarURL()
-            })
-            .setTitle("Welcome to the Orbit LFG platform")
-            .setDescription("Please select an option")
-            .setColor("#ffa500")
+      }
+      console.log(embed.mainMenu)
         if (posts.length > 0) {
 
             message.channel.send({
-                embeds: [mainEmbed],
+                embeds: embed.mainMenu,
                 components: menu.mainMenuActive
             })
         } else {
             message.channel.send({
-                embeds: [mainEmbed],
+                embeds: embed.mainMenu,
                 components: menu.mainMenuDisabled
             })
         }
@@ -81,6 +146,34 @@ client.on("messageCreate", message => {
 
 
 client.on("interactionCreate", interaction => {
+  if (interaction.values != null){
+    console.log(interaction.values)
+    console.log(interaction.values[0])
+    if (interaction.customId === "strikeSelect"){
+  if (interaction.values[0] === 'strike1') {
+    console.log("Menu success")
+    interaction.update({
+      content: "Fucking work please",
+      components: menu.mainMenuActive
+    })
+    }
+   }
+  }
+
+  if (interaction.customId === "toMainMenu"){
+    if(posts.length > 0) {
+      interaction.update({
+        components:
+          menu.mainMenuActive
+      })
+    }
+    else {
+      interaction.update({
+        components:
+          menu.mainMenuDisabled
+      })
+    }
+  }
 
 
 
@@ -90,10 +183,8 @@ client.on("interactionCreate", interaction => {
 
     if (interaction.customId === 'newPostMenu') {
         interaction.update({
-            components: [{
-                type: 1,
-                components: menu.newPostMenu
-            }]
+            components: 
+              menu.newPostMenu
         })
     }
 
@@ -180,42 +271,26 @@ client.on("interactionCreate", interaction => {
     //New Posts Menu Interactions
 
     if (interaction.customId === 'Raid') {
-        console.log(interaction)
         interaction.update({
-            components: [{
-                type: 1,
-                components: [{
-                        type: 2,
-                        label: 'Last Wish',
-                        style: 1,
-                        custom_id: 'LW'
-                    },
-                    {
-                        type: 2,
-                        label: 'Garden of Salvation',
-                        style: 1,
-                        custom_id: 'GOS'
-                    },
-                    {
-                        type: 2,
-                        label: 'Deep Stone Crypt',
-                        style: 1,
-                        custom_id: 'DSC'
-                    },
-                    {
-                        type: 2,
-                        label: 'Vault of Glass',
-                        style: 1,
-                        custom_id: 'VOG'
-                    },
-                    {
-                        type: 2,
-                        label: 'Vow of the Disciple',
-                        style: 1,
-                        custom_id: 'VOTD'
-                    },
-                ]
-            }]
+            components: menu.raidMenu
+        })
+    }
+
+    if (interaction.customId === 'Strike') {
+        interaction.update({
+            components: menu.strikeMenu
+        })
+    }
+
+    if (interaction.customId === 'Cas') {
+        interaction.update({
+            components: menu.casMenu
+        })
+    }
+
+  if (interaction.customId === 'Comp') {
+        interaction.update({
+            components: menu.compMenu
         })
     }
 
@@ -228,6 +303,7 @@ client.on("interactionCreate", interaction => {
 
 
     if (interaction.customId === 'joinGroup1') {
+      try{
         if (posts[0] != null) {
             let inGroup = false;
             for (let index = 0; index < 6; index++) {
@@ -256,8 +332,11 @@ client.on("interactionCreate", interaction => {
                 }
             }
         } else {
-            interaction.update('No post exists in this position')
+            interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive})
         }
+      } catch(DiscordAPIError) {
+        console.log("Error Found")
+      }
     }
 
     if (interaction.customId === 'joinGroup2') {
@@ -280,7 +359,7 @@ client.on("interactionCreate", interaction => {
                 }
             }
         } else {
-            interaction.update('No post exists in this position')
+            interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive})
         }
     }
 
@@ -304,7 +383,7 @@ client.on("interactionCreate", interaction => {
                 }
             }
         } else {
-            interaction.update('No post exists in this position')
+            interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive})
         }
     }
 
@@ -328,7 +407,7 @@ client.on("interactionCreate", interaction => {
                 }
             }
         } else {
-            interaction.update('No post exists in this position')
+            interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive})
         }
     }
 
@@ -352,7 +431,7 @@ client.on("interactionCreate", interaction => {
                 }
             }
         } else {
-            interaction.update('No post exists in this position')
+            interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive})
         }
     }
 
@@ -383,7 +462,7 @@ client.on("interactionCreate", interaction => {
         if (posts.length < 5) {
             posts.push(new group.Raid(interaction.member.user.username, 'Garden of Salvation'))
             interaction.update({
-                content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Garden of Salvation group'),
+                content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Garden of Salvation group'),
                 components: menu.mainMenuActive
             })
         } else {
@@ -398,7 +477,7 @@ client.on("interactionCreate", interaction => {
         if (posts.length < 5) {
             posts.push(new group.Raid(interaction.member.user.username, 'Deep Stone Crypt'))
             interaction.update({
-                content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Deep Stone Crypt group'),
+                content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Deep Stone Crypt group'),
                 components: menu.mainMenuActive
             })
         } else {
@@ -413,7 +492,7 @@ client.on("interactionCreate", interaction => {
         if (posts.length < 5) {
             posts.push(new group.Raid(interaction.member.user.username, 'Vault of Glass'))
             interaction.update({
-                content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Vault of Glass group'),
+                content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Vault of Glass group'),
                 components: menu.mainMenuActive
             })
         } else {
@@ -428,7 +507,7 @@ client.on("interactionCreate", interaction => {
         if (posts.length < 5) {
             posts.push(new group.Raid(interaction.member.user.username, 'Vow of the Disciple'))
             interaction.update({
-                content: ("@" + interaction.member.user.username + "#" + interaction.member.user.discriminator + ' Successfully created new Vow of the Disciple group'),
+                content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Vow of the Disciple group'),
                 components: menu.mainMenuActive
             })
         } else {
@@ -438,6 +517,28 @@ client.on("interactionCreate", interaction => {
             })
         }
     }
+
+
+
+  ///Strike Creation Handlers
+
+  if (interaction.customId === "Adept" || 
+      interaction.customId === "Hero" || 
+      interaction.customId === "Legend" || 
+      interaction.customId === "Master" || 
+      interaction.customId === "GM"){
+      switch (interaction.customId){
+        case "Adept": strikeDifficulty = "Adept"
+        case "Hero": strikeDifficulty = "Hero"
+        case "Legend": strikeDifficulty = "Legend"
+        case "Master": strikeDifficulty = "Master"
+        case "GM": strikeDifficulty = "GM"
+      }
+    interaction.update({
+      content: ("Strike Difficulty: " + strikeDifficulty),
+      components: menu.strikeMenu2
+    })
+  }
 
 
 });
