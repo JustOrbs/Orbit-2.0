@@ -14,7 +14,7 @@ module.exports = {
         this.Guardians[0] = leader
         this.Name = strike
     }
-    Guardians = ["OPEN", "OPEN", "OPEN"]
+    Guardians = ["OPEN", "OPEN", "OPEN", " ", " ", " "]
     Type = "Strike"
 },
 
@@ -32,7 +32,7 @@ module.exports = {
         this.Guardians[0] = leader
         this.Name = comp
     }
-    Guardians = ["OPEN", "OPEN", "OPEN"]
+    Guardians = ["OPEN", "OPEN", "OPEN", " ", " ", " "]
     Type = "Comp"
 }
 

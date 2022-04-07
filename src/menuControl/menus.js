@@ -75,7 +75,7 @@ module.exports = {
                     },
                     {
                         type: 2,
-                        label: 'Trials',
+                        label: 'Competitive PVP',
                         style: 3,
                         custom_id: 'Comp'
                     },
@@ -201,12 +201,6 @@ module.exports = {
                     },
                     {
                         type: 2,
-                        label: '3 Player Casual',
-                        style: 4,
-                        custom_id: '3Player'
-                    },
-                    {
-                        type: 2,
                         label: 'Weekly Special',
                         style: 4,
                         custom_id: 'Weekly'
@@ -271,20 +265,10 @@ module.exports = {
       custom_id: "strikeSelect",
       placeholder: "Select a Strike",
       options: [{
-        label: "Strike 1",
-        description: "Planet/Location",
-        value: "strike1"
-      },
-                {
-        label: "Strike 2",
-        description: "Planet/Location",
-        value: "strike2"
-      },
-                {
-        label: "Strike 3",
-        description: "Planet/Location",
-        value: "strike3"
-      },
+        label: "Weekly GM",
+        description: "Rotational GM Strike, list will update when all gms become available",
+        value: "weeklyGM"
+      }
                 
                ]
       

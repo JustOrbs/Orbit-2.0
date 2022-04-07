@@ -6,5 +6,5 @@ module.exports = {
     author: {},
     description: "Please select an option",
     color: "#ffa500"
-  }]
+  }],
 }
