@@ -203,40 +203,7 @@ client.on("interactionCreate", interaction => {
             }
             interaction.update({
                 embeds: [embed],
-                components: [{
-                    type: 1,
-                    components: [{
-                            type: 2,
-                            label: 'Join Group 1',
-                            style: 3,
-                            custom_id: 'joinGroup1'
-                        },
-                        {
-                            type: 2,
-                            label: 'Join Group 2',
-                            style: 3,
-                            custom_id: 'joinGroup2'
-                        },
-                        {
-                            type: 2,
-                            label: 'Join Group 3',
-                            style: 3,
-                            custom_id: 'joinGroup3'
-                        },
-                        {
-                            type: 2,
-                            label: 'Join Group 4',
-                            style: 3,
-                            custom_id: 'joinGroup4'
-                        },
-                        {
-                            type: 2,
-                            label: 'Join Group 5',
-                            style: 3,
-                            custom_id: 'joinGroup5'
-                        },
-                    ]
-                }]
+                components: menu.viewPostMenu
             })
         }
     }
@@ -301,6 +268,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[0].Guardians[index] === "OPEN") {
                     posts[0].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -329,6 +297,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[0].Guardians[index] === "OPEN") {
                     posts[0].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -369,6 +338,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[1].Guardians[index] === "OPEN") {
                     posts[1].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -397,6 +367,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[1].Guardians[index] === "OPEN") {
                     posts[1].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -436,6 +407,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[2].Guardians[index] === "OPEN") {
                     posts[2].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -464,6 +436,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[2].Guardians[index] === "OPEN") {
                     posts[2].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -503,6 +476,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[3].Guardians[index] === "OPEN") {
                     posts[3].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -531,6 +505,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[3].Guardians[index] === "OPEN") {
                     posts[3].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -571,6 +546,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[4].Guardians[index] === "OPEN") {
                     posts[4].Guardians[index] = interaction.member.user.username
                     inGroup = true
@@ -599,6 +575,7 @@ client.on("interactionCreate", interaction => {
                       embeds: embed.mainMenu
                     })
                     inGroup === true
+                  break
                 } else if (posts[4].Guardians[index] === "OPEN") {
                     posts[4].Guardians[index] = interaction.member.user.username
                     inGroup = true

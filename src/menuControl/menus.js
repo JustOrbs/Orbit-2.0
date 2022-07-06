@@ -273,7 +273,53 @@ module.exports = {
                ]
       
     }]
-  }]
+  }],
+
+
+  viewPostMenu: [{
+    type: 1,
+                    components: [{
+                            type: 2,
+                            label: 'Join Group 1',
+                            style: 3,
+                            custom_id: 'joinGroup1'
+                        },
+                        {
+                            type: 2,
+                            label: 'Join Group 2',
+                            style: 3,
+                            custom_id: 'joinGroup2'
+                        },
+                        {
+                            type: 2,
+                            label: 'Join Group 3',
+                            style: 3,
+                            custom_id: 'joinGroup3'
+                        },
+                        {
+                            type: 2,
+                            label: 'Join Group 4',
+                            style: 3,
+                            custom_id: 'joinGroup4'
+                        },
+                        {
+                            type: 2,
+                            label: 'Join Group 5',
+                            style: 3,
+                            custom_id: 'joinGroup5'
+                        },
+                        
+                    ]
+  },
+                 {
+                   type: 1,
+                   components: [{
+                     type: 2,
+                     label: 'Main Menu',
+                     style: 2,
+                     custom_id: 'toMainMenu'
+                   }]
+                 }]
 
 
   
