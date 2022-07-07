@@ -101,9 +101,6 @@ process.on('unhandledRejection', (reason, p) => {
 
 
 
-
-
-
 /////Test interaction
 client.on("messageCreate", message => {
     channel = message.channel_id
@@ -118,19 +115,19 @@ client.on("messageCreate", message => {
 
 
     if (message.content === "!lfg") {
-      embed.mainMenu[0].author = {
+      embed.mainEmbed[0].author = {
                 name: message.author.username,
                 iconURL: message.author.displayAvatarURL()
       }
         if (posts.length > 0) {
 
             message.channel.send({
-                embeds: embed.mainMenu,
+                embeds: embed.mainEmbed,
                 components: menu.mainMenuActive
             })
         } else {
             message.channel.send({
-                embeds: embed.mainMenu,
+                embeds: embed.mainEmbed,
                 components: menu.mainMenuDisabled
             })
         }
@@ -148,14 +145,20 @@ client.on("messageCreate", message => {
 client.on("interactionCreate", interaction => {
 
   if (interaction.customId === "toMainMenu"){
+    embed.mainEmbed[0].author = {
+        name: interaction.user.username,
+        iconURL: interaction.user.displayAvatarURL()
+      }
     if(posts.length > 0) {
       interaction.update({
+        embeds: embed.mainEmbed,
         components:
           menu.mainMenuActive
       })
     }
     else {
       interaction.update({
+        embeds: embed.mainEmbed,
         components:
           menu.mainMenuDisabled
       })
@@ -164,12 +167,17 @@ client.on("interactionCreate", interaction => {
 
 
 
-    //Create LFG Post Button
+  ///Create LFG Post Button
 
 
 
-    if (interaction.customId === 'newPostMenu') {
+  if (interaction.customId === 'newPostMenu') {
+      embed.createPostEmbed[0].author = {
+                name: interaction.user.username,
+                iconURL: interaction.user.displayAvatarURL()
+      }
         interaction.update({
+            embeds: embed.createPostEmbed,
             components: 
               menu.newPostMenu
         })
@@ -177,12 +185,11 @@ client.on("interactionCreate", interaction => {
 
 
 
-
-    //View LFG Posts Button
-
+  ///View LFG Posts Button
 
 
-    if (interaction.customId === 'viewPostMenu') {
+
+  if (interaction.customId === 'viewPostMenu') {
         if (posts.length == 0) {
             interaction.update("No posts exist")
         } else {
@@ -210,8 +217,7 @@ client.on("interactionCreate", interaction => {
 
 
 
-
-    //Delete LFG Post Buttons
+  ///Delete LFG Post Buttons
 
 
 
@@ -222,21 +228,21 @@ client.on("interactionCreate", interaction => {
         })
     }
 
-    //New Posts Menu Interactions
+  ///New Posts Menu Interactions
 
-    if (interaction.customId === 'Raid') {
+  if (interaction.customId === 'Raid') {
         interaction.update({
             components: menu.raidMenu
         })
     }
 
-    if (interaction.customId === 'Strike') {
+  if (interaction.customId === 'Strike') {
         interaction.update({
             components: menu.strikeMenu
         })
     }
 
-    if (interaction.customId === 'Cas') {
+  if (interaction.customId === 'Cas') {
         interaction.update({
             components: menu.casMenu
         })
@@ -250,13 +256,11 @@ client.on("interactionCreate", interaction => {
 
 
 
-
-    //Join Group Command Handlers
-
+  ///Join Group Command Handlers
 
 
 
-    if (interaction.customId === 'joinGroup1') {
+  if (interaction.customId === 'joinGroup1') {
         if (posts[0] != null) {
             let inGroup = false;
             if (posts[0].Type === "Raid" || posts[0].Type === "Casual"){
@@ -265,7 +269,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -275,7 +279,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[0].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -294,7 +298,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -304,7 +308,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[0].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -319,14 +323,11 @@ client.on("interactionCreate", interaction => {
           }
         } else {
             interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive,
-                               embeds: embed.mainMenu})
+                               embeds: embed.mainEmbed})
         }
     }}
 
-
-
-
-      if (interaction.customId === 'joinGroup2') {
+  if (interaction.customId === 'joinGroup2') {
         if (posts[1] != null) {
             let inGroup = false;
             if (posts[1].Type === "Raid" || posts[1].Type === "Casual"){
@@ -335,7 +336,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -345,7 +346,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[1].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -364,7 +365,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -374,7 +375,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[1].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -389,13 +390,11 @@ client.on("interactionCreate", interaction => {
           }
         } else {
             interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive,
-                               embeds: embed.mainMenu})
+                               embeds: embed.mainEmbed})
         }
     }}
 
-
-
-      if (interaction.customId === 'joinGroup3') {
+  if (interaction.customId === 'joinGroup3') {
         if (posts[2] != null) {
             let inGroup = false;
             if (posts[2].Type === "Raid" || posts[2].Type === "Casual"){
@@ -404,7 +403,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -414,7 +413,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[2].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -433,7 +432,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -443,7 +442,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[2].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -458,13 +457,11 @@ client.on("interactionCreate", interaction => {
           }
         } else {
             interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive,
-                               embeds: embed.mainMenu})
+                               embeds: embed.mainEmbed})
         }
     }}
 
-
-
-      if (interaction.customId === 'joinGroup4') {
+  if (interaction.customId === 'joinGroup4') {
         if (posts[3] != null) {
             let inGroup = false;
             if (posts[3].Type === "Raid" || posts[3].Type === "Casual"){
@@ -473,7 +470,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -483,7 +480,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[3].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -502,7 +499,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -512,7 +509,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[3].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -527,14 +524,11 @@ client.on("interactionCreate", interaction => {
           }
         } else {
             interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive,
-                               embeds: embed.mainMenu})
+                               embeds: embed.mainEmbed})
         }
     }}
 
-
-
-
-      if (interaction.customId === 'joinGroup5') {
+  if (interaction.customId === 'joinGroup5') {
         if (posts[4] != null) {
             let inGroup = false;
             if (posts[4].Type === "Raid" || posts[4].Type === "Casual"){
@@ -543,7 +537,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -553,7 +547,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[4].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -572,7 +566,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: "Hey! You're already in this group",
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                     inGroup === true
                   break
@@ -582,7 +576,7 @@ client.on("interactionCreate", interaction => {
                     interaction.update({
                         content: ('Added ' + interaction.member.user.username + " to " + posts[4].Name),
                         components: menu.mainMenuActive,
-                      embeds: embed.mainMenu
+                      embeds: embed.mainEmbed
                     })
                 }
                 if (inGroup === true) {
@@ -597,33 +591,26 @@ client.on("interactionCreate", interaction => {
           }
         } else {
             interaction.update({content: 'No post exists in this position', components: menu.mainMenuActive,
-                               embeds: embed.mainMenu})
+                               embeds: embed.mainEmbed})
         }
     }}
 
     
 
-    
+  ///Raid Creation Command Handlers
 
 
 
-
-//////////Raid Creation Command Handlers
-
-
-
-
-    if (interaction.customId === 'LW') {
+  if (interaction.customId === 'LW') {
             posts.push(new group.Raid(interaction.member.user.username, 'Last Wish'))
             interaction.update({
                 content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Last Wish group'),
-                components: menu.mainMenuActive
+                components: menu.mainMenuActive,
+              
             })
     }
-
-
   
-    if (interaction.customId === 'GOS') {
+  if (interaction.customId === 'GOS') {
             posts.push(new group.Raid(interaction.member.user.username, 'Garden of Salvation'))
             interaction.update({
                 content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Garden of Salvation group'),
@@ -631,7 +618,7 @@ client.on("interactionCreate", interaction => {
             })
     }
 
-    if (interaction.customId === 'DSC') {
+  if (interaction.customId === 'DSC') {
             posts.push(new group.Raid(interaction.member.user.username, 'Deep Stone Crypt'))
             interaction.update({
                 content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Deep Stone Crypt group'),
@@ -639,7 +626,7 @@ client.on("interactionCreate", interaction => {
             })
     }
 
-    if (interaction.customId === 'VOG') {
+  if (interaction.customId === 'VOG') {
             posts.push(new group.Raid(interaction.member.user.username, 'Vault of Glass'))
             interaction.update({
                 content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Vault of Glass group'),
@@ -647,7 +634,7 @@ client.on("interactionCreate", interaction => {
             })
     }
 
-    if (interaction.customId === 'VOTD') {
+  if (interaction.customId === 'VOTD') {
             posts.push(new group.Raid(interaction.member.user.username, 'Vow of the Disciple'))
             interaction.update({
                 content: ("<@&819246947612753961> " + interaction.member.user.username + ' Has created new Vow of the Disciple group'),
@@ -659,6 +646,8 @@ client.on("interactionCreate", interaction => {
 
   ///Strike Creation Handlers
 
+
+  
   if (interaction.customId === "Adept" || 
       interaction.customId === "Hero" || 
       interaction.customId === "Legend" || 
@@ -701,8 +690,8 @@ client.on("interactionCreate", interaction => {
   }
 
 
-
-///////Casual PVP Handlers
+  
+  ///Casual PVP Handlers
 
 
   
@@ -713,8 +702,6 @@ client.on("interactionCreate", interaction => {
       components: menu.mainMenuActive
     })
   }
-
-
   
   if (interaction.customId === "Clash"){
     posts.push(new group.Casual(interaction.member.user.username, "Clash"))
@@ -724,9 +711,6 @@ client.on("interactionCreate", interaction => {
     })
   }
 
-
-
-  
   if (interaction.customId === "Weekly"){
     posts.push(new group.Casual(interaction.member.user.username, "Weekly"))
     interaction.update({
@@ -734,8 +718,6 @@ client.on("interactionCreate", interaction => {
       components: menu.mainMenuActive
     })
   }
-
-
   
   if (interaction.customId === "IB"){
     posts.push(new group.Casual(interaction.member.user.username, "IB"))
@@ -745,6 +727,36 @@ client.on("interactionCreate", interaction => {
     })
   }
 
+
+
+  ///Competitive PVP Handlers
+
+
+
+  if (interaction.customId === "Survival"){
+    posts.push(new group.Comp(interaction.member.user.username, "Comp"))
+    interaction.update({
+      content: "<@&960574119563390996>" + interaction.member.user.username + " has created a new Survival Team",
+      components: menu.mainMenuActive,
+      embeds: embed.mainEmbed
+    })
+  }
+  if (interaction.customId === "Farming"){
+    posts.push(new group.Comp(interaction.member.user.username, "Trials Farm"))
+    interaction.update({
+      content: "<@&960574119563390996>" + interaction.member.user.username + " has created a new Trials Farming Team",
+      components: menu.mainMenuActive,
+      embeds: embed.mainEmbed
+    })
+  }
+  if (interaction.customId === "Flawless"){
+    posts.push(new group.Comp(interaction.member.user.username, "Trials Flawless"))
+    interaction.update({
+      content: "<@&960574119563390996>" + interaction.member.user.username + " has created a new Trials Flawless Team",
+      components: menu.mainMenuActive,
+      embeds: embed.mainEmbed
+    })
+  }
 });
 
 

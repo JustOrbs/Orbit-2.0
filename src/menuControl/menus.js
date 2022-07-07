@@ -1,7 +1,7 @@
 module.exports = {
 
   
- mainMenuDisabled: [{
+  mainMenuDisabled: [{
     type: 1,
     components: [{
             type: 2,
@@ -27,8 +27,7 @@ module.exports = {
 }],
 
 
-  
- mainMenuActive : [{
+  mainMenuActive : [{
     type: 1,
     components: [{
             type: 2,
@@ -52,8 +51,7 @@ module.exports = {
 }],
 
 
-
-    newPostMenu: [{
+  newPostMenu: [{
       type: 1,
       components: [{
                         type: 2,
@@ -92,9 +90,6 @@ module.exports = {
                   }],
 
 
-
-
-  
   raidMenu: [{
                 type: 1,
                 components: [{
